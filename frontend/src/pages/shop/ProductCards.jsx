@@ -4,7 +4,7 @@ import RatingStars from '../../components/RatingStars'
 
 const ProductCards = ({products}) => {
 
-    console.log(products)
+    // console.log(products)
   return (
     <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-8'>
       { 
