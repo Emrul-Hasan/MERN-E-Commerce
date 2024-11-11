@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import productsData from "../../data/products.json"
 import ProductCards from './ProductCards';
+import ShopFiltering from './shopFiltering';
 
 
 
@@ -64,10 +65,15 @@ const clearFilters = () =>{
     <section className='section__container'>
         <div className='flex flex-col md:flex-row md:gap-12 gap-8'>
             {/* left site */}
-            <div> Shop Filtering </div>
+            <ShopFiltering 
+            filters = {filters} 
+            filterState={filterState} 
+            setFilterState={setFilterState} 
+            clearFilters={clearFilters} 
+            />
             {/* Right site */}
             <div>
-                <h3 className='text-xl font-medium mb-4'>Products Available {products.length}</h3>
+                <h3 className='text-xl font-medium mb-4'>Products Available :{products.length}</h3>
                  <ProductCards products={products}></ProductCards>
             </div>
         </div>
