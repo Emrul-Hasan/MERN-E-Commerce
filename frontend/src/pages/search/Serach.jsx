@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import productsData from "../../data/products.json"
+import ProductCards from '../shop/ProductCards';
 
 const Serach = () => {
     const [searchQuery,setSearchQuery] = useState('');
@@ -31,6 +32,8 @@ const Serach = () => {
           className='search-button w-full md:w-auto py-2 px-8 bg-primary text-white rounded'
           >Search</button>
     </div>
+
+    <ProductCards products={filteredProducts}></ProductCards>
    </section>
 
  </>
