@@ -36,6 +36,7 @@ const applyFilters = () =>{
         filteredProducts = filteredProducts.filter(product => product.color === filterState.color)
     }
     if(filterState.priceRange){
+        const [minPrice,maxPrice] = filterState.priceRange.split('-').map(Number);
         const [] = filterState.priceRange.split('-').map(Number);
         filteredProducts = filteredProducts.filter(product => product.price >= minPrice && product.price <= maxPrice)
     }
