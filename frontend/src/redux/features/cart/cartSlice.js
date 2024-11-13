@@ -13,11 +13,12 @@ const initialState = {
     name: 'cart',
     initialState,
     reducers:{
-        addToCart : {
-            addToCart: (state, action) =>{
+            addToCart: (state, action) =>{         
                 const isExist = state.products.find((product) => product.id === action.payload.id);
+                
                 if (!isExist){
                     state.products.push({...action.payload, quantity :1})
+                    // console.log(action);
                 }
                 else{
                     console.log("Item Alrady added !")
@@ -29,8 +30,7 @@ const initialState = {
 
             }
         }
-    }
- })
+    })
 
  export const selectedItems = (state) => state.products.reduce ((total,product) =>{
     return Number (total = product.quantity)
