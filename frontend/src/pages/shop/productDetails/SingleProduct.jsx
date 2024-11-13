@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
+import RatingStars from '../../../components/RatingStars';
 
 const SingleProduct = () => {
     const {id} = useParams();
@@ -17,6 +18,39 @@ const SingleProduct = () => {
     <i className='ri-arrow-right-s-line'></i>
 
    </div>
+   </section>
+
+   <section className='section__container mt-8'>
+    <div className='flex flex-col items-center md:flex-row gap-x-28'>
+        <div className='md:w-1/2 w-full'>
+        <img src='https://plus.unsplash.com/premium_photo-1664298355914-bc65d2c9af64?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+        className='rounded-md w-full h-auto'></img>
+        </div>
+        <div className='md:w-1/2 w-full'>
+        <h3 className='text-2xl font-semibold mb-4'>Product Name</h3>
+        <p className='text-xl text-primary mb-4'>$100</p>
+        <p className='text-gray-400 mb-4'>Lorem, ipsum dolor sit amet consectboriosam?</p>
+        <div>
+            <p><strong>Category:</strong>accessories</p>
+            <p><strong>Color:</strong>beige</p>
+            <div className='flex gap-1 items-center'>
+                <strong>Rating</strong>
+                <RatingStars rating={"4"}></RatingStars>
+
+            </div>
+        </div>
+        <button className='mt-t px-6 py-3 bg-primary text-white rounded-md'>
+            Add to Cart
+        </button>
+        </div>
+    </div>
+
+   </section>
+
+   {/* Disply Review */}
+   <section className='setion__container mt-8'>
+     Review here
+    
    </section>
 </>
   )
