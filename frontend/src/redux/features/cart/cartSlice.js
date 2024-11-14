@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     products:[],
-    selectedItem : 0,
+    selectedItems : 0,
     totalPrice : 0,
     tax : 0,
     taxRate : 0.05,
@@ -17,7 +17,7 @@ const initialState = {
                 const isExist = state.products.find((product) => product.id === action.payload.id);
                 
                 if (!isExist){
-                    state.products.push({...action.payload, quantity :1})
+                    state.products.push({...action.payload, quantity: 1 })
                     // console.log(action);
                 }
                 else{
@@ -33,12 +33,12 @@ const initialState = {
     })
 
  export const selectedItems = (state) => state.products.reduce ((total,product) =>{
-    return Number (total = product.quantity)
- })
+    return Number (total + product.quantity)
+ },0)
 
  export const setTotalPrice = (state) => state.products.reduce((total,product) =>{
     return Number (total + product.quantity * product.price)
- })
+ },0)
 
  export const setTax = (state) => setTotalPrice(state) * state.taxRate;
 
