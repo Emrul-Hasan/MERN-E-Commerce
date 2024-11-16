@@ -1,7 +1,16 @@
 import React from 'react'
 import OrderSummery from './OrderSummery'
+import { useDispatch } from 'react-redux'
+import { updateQuantity } from '../../redux/features/cart/cartSlice';
 
 const CartModal = ({products,isOpen,onClose}) => {
+    const dispatch = useDispatch();
+
+    const handleQuantity = (type,id) =>{
+        const payload = {type,id}
+        dispatch(updateQuantity(payload))
+
+    }
   return (
     <div className={`fixed z-[1000] inset-0 bg-black bg-opacity-80 transition-opacity $
         {isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`} 
@@ -36,9 +45,11 @@ const CartModal = ({products,isOpen,onClose}) => {
                                             <p className='text-gray-600 text-sm'>${Number(item.price).toFixed(2)}</p>
                                         </div>
                                         <div className='flex flex-row md:justify-start justify-end items-center mt-2'>
-                                            <button className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white ml-8'>-</button>
+                                            <button onClick={() => handleQuantity('decrement',item.id)}
+                                            className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white ml-8'>-</button>
                                             <span>{item.quantity}</span>
-                                            <button className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white'>+</button>
+                                            <button onClick={() => handleQuantity('increment',item.id)}
+                                            className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white'>+</button>
                                             <div className='ml-5'>
                                                 <button className='text-red-500 hover:text-red-800 mr-4'>Remove</button>
                                             </div>
