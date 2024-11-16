@@ -28,7 +28,27 @@ const initialState = {
                 state.tax = setTax(state);
                 state.grandTotal = setGrandTotal(state);
 
-            }
+            },
+            updateQuantity: (state, action) =>{
+
+                const products = state.products.map((product) =>{
+                    if(product.id === action.payload.id){
+                        if(action.payload.type === 'increment'){
+                            product.quantity +=1;
+                        } 
+                        else if (action.payload.type === 'decrement'){
+                            if(product.quantity > 1){
+                                product.quantity -= 1
+                            }
+                        }
+                    }
+                    return product;
+                });
+                state.selectedItems = selectedItems(state);
+                state.totalPrice = setTotalPrice(state);
+                state.tax = setTax(state);
+                state.grandTotal = setGrandTotal(state);
+            },
         }
     })
 
