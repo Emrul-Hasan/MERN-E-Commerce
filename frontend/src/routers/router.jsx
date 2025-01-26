@@ -8,6 +8,7 @@ import Serach from "../pages/search/Serach";
 import ShopPage from "../pages/shop/ShopPage";
 import SingleProduct from "../pages/shop/productDetails/SingleProduct";
 import Login from "../components/Login";
+import Register from "../components/Register";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     },
     {
       path: "/login", element: <Login></Login>
+    },
+
+    {
+      path: "/register", element: <Register></Register>
     }
   ]);
 

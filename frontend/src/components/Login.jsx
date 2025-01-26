@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [message, setMessage] = useState('');
-    const  [email, setEmail] = useState('');
+    const [email, setEmail] = useState('')  ;
     const [password,setPassword] = useState('');
     const handleLogin = async (e) =>{
         e.preventDefault();
@@ -12,7 +12,7 @@ const Login = () => {
             password
         }
 
-        // console.log(data)
+         console.log(data)
     }
 
   return (
@@ -30,7 +30,6 @@ const Login = () => {
             />
            < input type='password' name='password' id='password' 
             onChange={(e) => setPassword(e.target.value)}
-            placeholder='Password' required 
             className='w-full bg-gray-100 focus:outline-none px-5 py-3'
             />
             {
@@ -42,7 +41,7 @@ const Login = () => {
 
             </form>
             <p className='my-5 italic text-sm text-center'>Don't have an account ? 
-                <Link to="/register" className='text-red-700 px-1 underline'>Register</Link> here.</p>
+         <Link to="/register" className='text-red-700 px-1 underline'>Register</Link> here.</p>
         </div>
 
     </section>
