@@ -24,11 +24,16 @@ userShecma.pre('save', async function (next) {
     const user = this;
     if(!user.isModified('password')) 
         return next();
-    const haspassword = await bcrypt.hash(user.password,10);
-    user.password = haspassword;
+    const hashedPassword = await bcrypt.hash(user.password,10);
+    user.password = hashedPassword;
     next();
 })
 
+// match password
+
+userShecma.methods.comparePassword = function (cadidatePassword){
+    return bcrypt.compare(cadidatePassword , this.password)
+}
 
 const User = new model('User', userShecma);
 module.exports = User;

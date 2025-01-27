@@ -30,7 +30,7 @@ app.use('/api/auth', authRoutes)
 
 
 main()
-.then(()=> console.log("mongo is succefully connected"))
+.then(()=> console.log("mongo is succefully connecteds"))
 .catch(err => console.log(err));
 
 
@@ -39,7 +39,7 @@ async function main() {
     await mongoose.connect(process.env.DB_URL);
   
     app.get('/', (req, res) => {
-        res.send('Hello Developers')
+        res.send('Hello Developer')
       })
   }
 
