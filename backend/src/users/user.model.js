@@ -12,7 +12,8 @@ const userShecma = new Schema({
     bio:{
         type: String, maxlength: 200
     },
-    profession:{
+    profession : String,
+    createdAt:{
         type: Date,
         default: Date.now
     }
