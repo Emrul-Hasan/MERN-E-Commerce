@@ -1,11 +1,8 @@
 const express = require ('express');
 const User = require('./user.model');
+const generateToken = require('../middleware/generateToken');
+// const verifyToken = require('../middleware/verifyToken')
 const router = express.Router();
-
-// router.get ("/", async (req, res) =>{
-//     res.send("Registration Routers")
-// })
-
 
 router.post('/register', async (req, res) =>{
     try{
@@ -24,6 +21,7 @@ router.post('/register', async (req, res) =>{
 
 router.post('/login', async(req,res) =>{
     const {email,password} = req.body;
+   try {
     const user = await User.findOne({email});
     if (!user){
         return res.status(404).send({message : ' User Not Found'})
@@ -33,11 +31,62 @@ router.post('/login', async(req,res) =>{
         return res.status(401).send({message: "Password Not Matched"})
 
     }
-    res.status(200).send({message: "Login In Successfully", user })
+    const token = await generateToken(user._id);
+
+    res.cookie('token', token,{
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None'
+    })
+    // console.log(token)
+    res.status(200).send({message: "Login In Successfully", token, user:{
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        profileImage: user.profileImage,
+        bio: user.bio,
+        profession: user.profession
+
+    } })
+    
+   } catch (error) {
+       console.error("Error login", error);
+        res.status(500).send({message: "Error logged User"})
+
+   }
 })
 
 
 
+router.post('/logout', (req, res) =>{
+    res.clearCookie('token');
+    res.status(200).send({message:'Logged out Successfullly'})
+})
+
+router.delete('/users/:id', async (req,res) =>{
+    try {
+        const {id} = req.params;
+        const user = await User.findByIdAndDelete(id);
+        if(!user){
+            return res.status(404).send({message:'User not Found'})
+        }
+        res.status(200).send({message: 'User Deleted Successfully'})
+    } catch (error) {
+        console.error("Error deleting user", error);
+        res.status(500).send({message: "Error Deleting User"})
+    }
+})
+
+router.get("/users", async(req, res) =>{
+    try {
+        const users = await User.find({},'id email role').sort({createdAt: -1});
+        res.status(200).send(users)
+    } catch (error) {
+        console.error("Error fetching users", error);
+        res.status(500).send({message: "Error fetching User"})
+    }
+})
 
 
 module.exports = router;
