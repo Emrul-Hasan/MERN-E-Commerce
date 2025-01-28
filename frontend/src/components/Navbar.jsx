@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CartModal from '../pages/shop/CartModal';
-
 import avatarImg from "../assets/avatar.png"
 
 const Navbar = () => {
@@ -17,6 +16,31 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const {user} = useSelector((state) => state.auth)
 //    console.log(user);
+
+// dropdown menu
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const handDropDownToggle = () =>{
+        setIsDropDownOpen(!isDropDownOpen)
+    }
+
+    // admin dropdown menus
+  
+    const adminDropDownMenu = [
+        {label: "Dashboard", path: "/dashboard/admin"},
+        {label: "Manage Items", path: "/dashboard/manage-products"},
+        {label: "All Orders", path: "/dashboard/manage-orders"},
+        {label: "Add New Post", path: "/dashboard/add-new-post"},
+        
+    ]
+
+    const userDropDownMenu = [
+        {label: "Dashboard", path: "/dashboard"},
+        {label: "Profile", path: "/dashboard/profile"},
+        {label: "Payments", path: "/dashboard/payments"},
+        {label: "Orders", path: "/dashboard/orders"},
+        
+    ]
+
 
   return (
   <header className='fixed-nav-bar w-nav'>
