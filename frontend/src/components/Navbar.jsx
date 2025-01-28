@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CartModal from '../pages/shop/CartModal';
+
+import avatarImg from "../assets/avatar.png"
 
 const Navbar = () => {
     const products = useSelector((state) => state.cart.products);
@@ -9,6 +11,12 @@ const Navbar = () => {
     const handleCartToggle = () =>{
         setIsCartOpen(!isCartOpen)
     }
+
+    // Show user if logged in
+
+    const dispatch = useDispatch();
+    const {user} = useSelector((state) => state.auth)
+//    console.log(user);
 
   return (
   <header className='fixed-nav-bar w-nav'>
@@ -40,9 +48,14 @@ const Navbar = () => {
             </span>
 
             <span>
-                <Link to="/login">
-                <i className="ri-user-line"></i>
-                </Link>
+                {
+                    user && user ? (<>
+                    <img src={user?.profileImage || avatarImg} alt='' className='size-6 rounded-full cursor-pointer'></img>
+                    </>) : ( <Link to="/login">
+                        <i className="ri-user-line"></i>
+                        </Link>)
+                }
+               
             </span>
 
         </div>
