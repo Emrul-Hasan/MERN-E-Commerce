@@ -40,8 +40,10 @@ const Navbar = () => {
         {label: "Orders", path: "/dashboard/orders"},
         
     ]
+    const dropdownMenu = user?.role === 'admin' ? [...adminDropDownMenu] : [...userDropDownMenu]
+    const handleLogout = () =>{
 
-
+    }
   return (
   <header className='fixed-nav-bar w-nav'>
     <nav className='max-w-screen-2xl mx-auto px-4 flex justify-between items-center '>
@@ -74,7 +76,27 @@ const Navbar = () => {
             <span>
                 {
                     user && user ? (<>
-                    <img src={user?.profileImage || avatarImg} alt='' className='size-6 rounded-full cursor-pointer'></img>
+                    <img
+                      onClick={handDropDownToggle}
+                      src={user?.profileImage || avatarImg} alt='' className='size-6 rounded-full cursor-pointer'/>
+                      {
+                        isDropDownOpen && (
+                            <div className='absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50'>
+                                <ul className='font-medium space-y-4 p-2'>
+                                    {dropdownMenu.map((menu, index) =>(
+                                        <li key={index}>
+                                            <Link onClick={() => setIsDropDownOpen(false)}
+                                            className='dropdown-items' to={menu.path}
+                                            >{menu.label}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                    <li><Link onClick={handleLogout} className='dropdown-items'>Logout</Link></li>
+                                </ul>
+                            </div>
+                        )
+                      }  
+                    
                     </>) : ( <Link to="/login">
                         <i className="ri-user-line"></i>
                         </Link>)
