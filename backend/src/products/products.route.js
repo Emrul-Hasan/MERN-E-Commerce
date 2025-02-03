@@ -86,9 +86,7 @@ router.get("/:id", async ( req, res) => {
         res.status(500).send({message: "Error fetching products"})
     }
 })
-
 //updata a product
-
 router.patch("/update-product/:id", verifyToken , async (req, res) =>{
     try {
         const productId = req.params.id;
@@ -107,6 +105,37 @@ router.patch("/update-product/:id", verifyToken , async (req, res) =>{
     }
 })
 
+//Delete the product
+router.delete('/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const deletedProduct = await Products.findByIdAndDelete(productId);
+
+        if(!deletedProduct){
+            return res.status(404).send({message: "Product not found"});
+        }
+
+        await Reviews.deleteMany({productId: productId})
+
+        res.status(200).send({
+            message: "Product Deleted Successfully"
+        })
+    } catch (error) {
+        
+        console.error("Error deleting the product", error);
+        res.status(500).send({ message:"Failed to delete the product"})
+    }
+})
+
+// get related product
+router.get("/related/:id", async (req, res) =>{
+    try {
+        
+    } catch (error) {
+        console.error("Error fetching the related product", error);
+        res.status(500).send({message: "Failed to fetech the related product"});
+    }
+})
 
 
 
