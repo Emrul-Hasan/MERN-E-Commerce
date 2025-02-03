@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import productsData from "../../data/products.json"
 import ProductCards from './ProductCards';
 import ShopFiltering from './shopFiltering';
+import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 
 
 
@@ -17,34 +18,50 @@ const filters = {
 };
 
 const ShopPage = () => {
-const [products,setProducts] = useState(productsData)
-const [filterState,setFilterState] = useState({
+// const [products,setProducts] = useState(productsData)
+  const [filterState,setFilterState] = useState({
     category : 'all',
     color:'all',
     priceRange : ''
 });
 
+
+const [currentPage, setCurrentPage] = useState(1);
+const [ProductsPerPage] = useState(8);
+
+const {category, color, priceRange} = filterState;
+const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+
+const { data: {products = [], totalPages, totalProducts} ={},error,isLoading} = useFetchAllProductsQuery({
+    category: category !== 'all' ? category: '',
+    color: color !== 'all' ? color: '',
+    minPrice: isNaN(minPrice) ? '' : minPrice,
+    maxPrice: isNaN(maxPrice) ? '' : maxPrice,
+    page : currentPage,
+    limit :ProductsPerPage,
+})
+
 // Filter funstions
 
-const applyFilters = () =>{
+// const applyFilters = () =>{
 
-    let filteredProducts = productsData;
-    if(filterState.category && filterState.category !== 'all'){
-        filteredProducts = filteredProducts.filter(product => product.category === filterState.category)
-    }
-    if(filterState.color && filterState.color !== 'all'){
-        filteredProducts = filteredProducts.filter(product => product.color === filterState.color)
-    }
-    if(filterState.priceRange){
-        const [minPrice,maxPrice] = filterState.priceRange.split('-').map(Number);
-        const [] = filterState.priceRange.split('-').map(Number);
-        filteredProducts = filteredProducts.filter(product => product.price >= minPrice && product.price <= maxPrice)
-    }
-    setProducts(filteredProducts)
-}
-useEffect (() =>{
-    applyFilters()
-},[filterState])
+//     let filteredProducts = productsData;
+//     if(filterState.category && filterState.category !== 'all'){
+//         filteredProducts = filteredProducts.filter(product => product.category === filterState.category)
+//     }
+//     if(filterState.color && filterState.color !== 'all'){
+//         filteredProducts = filteredProducts.filter(product => product.color === filterState.color)
+//     }
+//     if(filterState.priceRange){
+//         const [minPrice,maxPrice] = filterState.priceRange.split('-').map(Number);
+//         const [] = filterState.priceRange.split('-').map(Number);
+//         filteredProducts = filteredProducts.filter(product => product.price >= minPrice && product.price <= maxPrice)
+//     }
+//     setProducts(filteredProducts)
+// }
+// useEffect (() =>{
+//     applyFilters()
+// },[filterState])
 
 const clearFilters = () =>{
   setFilterState({
@@ -54,8 +71,8 @@ const clearFilters = () =>{
   })
 }
 
-
-
+if (isLoading) return <div>Loadind....</div>
+if(error) return <div>Error Loading Page</div>
 
   return (
     <>
