@@ -1,6 +1,7 @@
 const express = require ('express');
 const Products = require('./products.model');
 const Reviews = require('../reviews.model');
+const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
 
 router.post("/create-product", async(req, res) =>{
@@ -29,7 +30,14 @@ router.post("/create-product", async(req, res) =>{
 
 router.get("/", async (req, res) => {
     try {
-        const {category, color, minPrice,maxPrice, page = 1 ,limit = 1} = req.query;
+        const {
+            category, 
+            color, 
+            minPrice,
+            maxPrice, 
+            page = 1 ,
+            limit = 10,
+        } = req.query;
         let filter = {};
         if(category && category !== "all"){
             filter.category = category
@@ -79,6 +87,25 @@ router.get("/:id", async ( req, res) => {
     }
 })
 
+//updata a product
+
+router.patch("/update-product/:id", verifyToken , async (req, res) =>{
+    try {
+        const productId = req.params.id;
+        const updateProduct =  await Products.findByIdAndUpdate(productId, {...req.body},{new: true})
+        if(!updateProduct){
+            return res.status(404).send({message: "Product not found"});
+        }
+        res.status(200).send({
+            message: "Product updated successfully",
+            product: updateProduct
+        })
+    } 
+    catch (error) {
+        console.error("Error updating the product", error);
+        res.status(500).send({message: "Failed to update the product"})
+    }
+})
 
 
 
