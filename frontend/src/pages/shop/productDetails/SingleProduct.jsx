@@ -1,10 +1,23 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import RatingStars from '../../../components/RatingStars';
+import { useDispatch } from 'react-redux';
+import { useFetchProductByIdQuery } from '../../../redux/features/products/productsApi';
 
 const SingleProduct = () => {
     const {id} = useParams();
-    console.log(id);
+    // console.log(id);
+
+const dispatch = useDispatch();
+const {data, error, isloading} = useFetchProductByIdQuery(id);
+// console.log(data)
+const SingleProduct = data?.product || {};
+const productReviews = data?.reviews || [];
+// console.log(productReviews)
+
+if(isloading) return <p>Loading...</p>
+if(error) return <p>Error loading products</p>
+
   return (
 <>
 <section className='section__container bg-primary-light'> 
@@ -23,19 +36,21 @@ const SingleProduct = () => {
    <section className='section__container mt-8'>
     <div className='flex flex-col items-center md:flex-row gap-x-28'>
         <div className='md:w-1/2 w-full'>
-        <img src='https://plus.unsplash.com/premium_photo-1664298355914-bc65d2c9af64?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+        <img src= {SingleProduct?.image}
         className='rounded-md w-full h-auto'></img>
         </div>
         <div className='md:w-1/2 w-full'>
-        <h3 className='text-2xl font-semibold mb-4'>Product Name</h3>
-        <p className='text-xl text-primary mb-4'>$100</p>
-        <p className='text-gray-400 mb-4'>Lorem, ipsum dolor sit amet consectboriosam?</p>
-        <div>
-            <p><strong>Category:</strong>accessories</p>
-            <p><strong>Color:</strong>beige</p>
+        <h3 className='text-2xl font-semibold mb-4'>{SingleProduct?.name}</h3>
+        <p className='text-xl text-primary mb-4'>${SingleProduct?.price}
+         {SingleProduct?.oldPrice && <s className='ml-1'>${SingleProduct?.oldPrice}</s>}
+        </p>
+        <p className='text-gray-400 mb-4'>{SingleProduct?.description}</p>
+        <div className='flex flex-col space-y-2'>
+            <p><strong>Category:</strong>{SingleProduct?.category}</p>
+            <p><strong>Color:</strong>{SingleProduct?.color}</p>
             <div className='flex gap-1 items-center'>
                 <strong>Rating</strong>
-                <RatingStars rating={"4"}></RatingStars>
+                <RatingStars rating={SingleProduct?.rating}></RatingStars>
 
             </div>
         </div>

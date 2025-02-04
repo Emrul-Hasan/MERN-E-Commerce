@@ -17,6 +17,7 @@ const filters = {
     ]
 };
 
+
 const ShopPage = () => {
 // const [products,setProducts] = useState(productsData)
   const [filterState,setFilterState] = useState({
@@ -71,6 +72,14 @@ const clearFilters = () =>{
   })
 }
 
+//handle page changes
+
+const handlePageChange = (pageNumber) =>{
+    if(pageNumber > 0 && pageNumber <= totalPages){
+        setCurrentPage(pageNumber)
+    }
+}
+
 if (isLoading) return <div>Loadind....</div>
 if(error) return <div>Error Loading Page</div>
 
@@ -94,21 +103,29 @@ const endProduct = startProduct + products.length - 1;
             />
             {/* Right site */}
             <div>
-                <h3 className='text-xl font-medium mb-4'>Products Available :{products.length}</h3>
+                {/* <h3 className='text-xl font-medium mb-4'>Products Available :{products.length}</h3> */}
+                <h1 className='text-xl font-medium mb-4'>
+                    Showing {startProduct} to {endProduct} of {totalProducts} products
+                </h1>
                  <ProductCards products={products}></ProductCards>
 
                  {/* paginations control */}
                 <div className='mt-6 flex justify-center'>
-                <button className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md mr-2'>Previous</button>
+                <button 
+                disabled={currentPage === 1}
+                onClick={() => handlePageChange(currentPage - 1)} className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md mr-2'>Previous</button>
                
                 {
                     [...Array(totalPages)].map((_, index) =>(
                         <button key={index}
+                        onClick={() => handlePageChange(index + 1)}
                         className={`px-4 py-2 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} rounded-md mx-1`}
                         >{index + 1}</button>
                     ))
                 }
-                <button className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md mr-2'>Next</button>
+                <button 
+                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(currentPage + 1)} className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md mr-2'>Next</button>
                  </div>
                 
             </div>
