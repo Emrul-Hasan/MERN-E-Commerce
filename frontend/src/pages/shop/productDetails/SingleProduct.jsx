@@ -4,6 +4,7 @@ import RatingStars from '../../../components/RatingStars';
 import { useDispatch } from 'react-redux';
 import { useFetchProductByIdQuery } from '../../../redux/features/products/productsApi';
 import { addToCart } from '../../../redux/features/cart/cartSlice';
+import ReviewsCard from '../reviews/ReviewsCard';
 
 const SingleProduct = () => {
     const {id} = useParams();
@@ -75,7 +76,7 @@ if(error) return <p>Error loading products</p>
 
    {/* Disply Review */}
    <section className='setion__container mt-8'>
-     Review here
+    <ReviewsCard productReviews = {productReviews} />
     
    </section>
 </>
