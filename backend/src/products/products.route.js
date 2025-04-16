@@ -1,8 +1,8 @@
 const express = require ('express');
 const Products = require('./products.model');
-const Reviews = require('../reviews.model');
 const verifyToken = require('../middleware/verifyToken');
 const verifyAdmin = require('../middleware/verifyAdmin');
+const Reviews = require('../reviews/reviews.model');
 const router = express.Router();
 
 router.post("/create-product", async(req, res) =>{
